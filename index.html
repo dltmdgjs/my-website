@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이승헌 | Software Developer Portfolio</title>
+  <meta name="description" content="이승헌의 소프트웨어 개발 포트폴리오. Spring Boot, JPA, Android, AI 기반 프로젝트 경험을 소개합니다." />
+  <style>
+    :root {
+      --bg: #f6f9ff;
+      --bg-soft: #eef4ff;
+      --card: rgba(255,255,255,0.88);
+      --card-strong: rgba(255,255,255,0.98);
+      --text: #10213f;
+      --muted: #61708c;
+      --line: rgba(61, 116, 200, 0.16);
+      --accent: #3b82f6;
+      --accent-2: #0ea5e9;
+      --accent-3: #60a5fa;
+      --shadow: 0 20px 55px rgba(62, 111, 190, 0.12);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.14), transparent 30%),
+        radial-gradient(circle at 88% 10%, rgba(14,165,233,0.10), transparent 24%),
+        linear-gradient(180deg, #fbfdff 0%, var(--bg) 42%, #f2f7ff 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,0.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      font-size: 1.05rem;
+      color: #1d4ed8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      min-height: calc(100vh - 70px);
+      display: grid;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .hero-side {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,250,255,0.94));
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: clamp(34px, 6vw, 72px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      right: -100px;
+      bottom: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.20), transparent 65%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      font-size: clamp(2.4rem, 5.4vw, 4.8rem);
+      line-height: 0.97;
+      letter-spacing: -0.06em;
+      margin-bottom: 28px;
+      background: linear-gradient(135deg, #0f2a52 0%, #2563eb 60%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.03rem, 2vw, 1.18rem);
+      margin-bottom: 32px;
+    }
+
+    .hero-copy strong { color: var(--text); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(59,130,246,0.05);
+      color: var(--text);
+      transition: 0.2s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: #ffffff;
+      font-weight: 800;
+      border-color: transparent;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .hero-side {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .profile-badge {
+      width: 86px;
+      height: 86px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #2563eb, #38bdf8);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 1.35rem;
+    }
+
+    .side-title {
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .side-sub { color: var(--muted); }
+
+    .mini-stats {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-stat {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .mini-stat strong { color: var(--text); }
+
+    section {
+      padding: 95px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      color: #2563eb;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: -0.05em;
+      margin-bottom: 0;
+    }
+
+    .section-desc {
+      max-width: 560px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .about-grid,
+    .skills-grid,
+    .cert-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-grid { grid-template-columns: 1.1fr 0.9fr; }
+    .skills-grid { grid-template-columns: repeat(4, 1fr); }
+    .cert-grid { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: 0 12px 34px rgba(77, 122, 190, 0.07);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(77, 122, 190, 0.11);
+      border-color: rgba(59,130,246,0.24);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+
+    .card p { color: var(--muted); margin-bottom: 0; }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: #31527f;
+      background: rgba(59,130,246,0.05);
+      font-size: 0.82rem;
+    }
+
+    .projects {
+      display: grid;
+      gap: 22px;
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      min-height: 340px;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .project-visual {
+      min-height: 100%;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(145deg, rgba(59,130,246,0.18), rgba(14,165,233,0.07)),
+        #edf5ff;
+      border-right: 1px solid var(--line);
+    }
+
+    .project:nth-child(2) .project-visual {
+      background:
+        linear-gradient(145deg, rgba(14,165,233,0.16), rgba(96,165,250,0.07)),
+        #eff8ff;
+    }
+
+    .project:nth-child(3) .project-visual {
+      background:
+        linear-gradient(145deg, rgba(96,165,250,0.16), rgba(59,130,246,0.07)),
+        #f2f7ff;
+    }
+
+    .project-no {
+      font-size: 4rem;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      opacity: 0.18;
+    }
+
+    .project-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .project-body { padding: 34px; }
+
+    .project-body h3 {
+      font-size: 1.8rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .project-summary {
+      color: #294263;
+      margin-bottom: 18px;
+    }
+
+    .project-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .meta-box {
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(59,130,246,0.035);
+    }
+
+    .meta-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-bottom: 3px;
+    }
+
+    .meta-value {
+      display: block;
+      color: var(--text);
+      font-weight: 750;
+      font-size: 0.92rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .metric {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(59,130,246,0.035);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 2px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .repo-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .repo-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 13px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(59,130,246,0.055);
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .repo-link:hover {
+      transform: translateY(-2px);
+      background: rgba(59,130,246,0.10);
+    }
+
+    .repo-link.disabled {
+      color: var(--muted);
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .repo-link.disabled:hover {
+      transform: none;
+      background: rgba(59,130,246,0.055);
+    }
+
+    .bullet-list {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .bullet-list li + li { margin-top: 8px; }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 20px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(59,130,246,0.035);
+    }
+
+    .timeline-date {
+      color: var(--accent-2);
+      font-weight: 800;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      margin: 5px 0 0;
+    }
+
+    .contact-card {
+      text-align: center;
+      padding: clamp(38px, 7vw, 72px);
+      background: linear-gradient(145deg, rgba(59,130,246,0.10), rgba(14,165,233,0.06));
+    }
+
+    .contact-card p {
+      max-width: 650px;
+      margin: 14px auto 26px;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .project {
+        grid-template-columns: 1fr;
+      }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .cert-grid { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      .project-visual {
+        min-height: 220px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(calc(100% - 24px), var(--max)); }
+      .nav-links { display: none; }
+      .hero { padding: 36px 0 58px; }
+      .hero-main, .hero-side { border-radius: 22px; }
+      .hero-main { padding: 30px 24px; }
+      .hero-side { padding: 24px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .project-meta { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 6px; }
+      section { padding: 72px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#top">SEUNGHUN.DEV</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#credentials">Credentials</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-main reveal">
+          <div class="eyebrow">SOFTWARE DEVELOPER PORTFOLIO</div>
+          <h1>문제를<br>끝까지 구현하는<br>개발자.</h1>
+          <p class="hero-copy">
+            안녕하세요, <strong>이승헌</strong>입니다.
+            프로젝트 구현 경험을 바탕으로 Android, Spring Boot, JPA, MySQL,
+            그리고 AI 연동까지 프로젝트 범위를 확장해 왔습니다.
+            단순히 기능을 만드는 것보다 <strong>서비스가 실제로 동작하는 전체 흐름</strong>을 이해하고 구현하는 데 관심이 있습니다.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#projects">프로젝트 보기</a>
+            <a class="btn" href="https://github.com/dltmdgjs" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </div>
+
+        <aside class="hero-side reveal">
+          <div>
+            <div class="profile-badge">SH</div>
+          </div>
+          <div>
+            <h3 class="side-title">이승헌</h3>
+            <div class="side-sub">Software Developer</div>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat"><span>Focus</span><strong>Backend / App / AI</strong></div>
+            <div class="mini-stat"><span>Main Stack</span><strong>Java · Spring</strong></div>
+            <div class="mini-stat"><span>Interest</span><strong>Software Development</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">About</div>
+            <h2>기능 구현에서<br>서비스 구조까지</h2>
+          </div>
+          <p class="section-desc">
+            프로젝트를 진행할수록 단일 기능보다 클라이언트, 서버, 데이터베이스,
+            AI 기능이 연결되는 구조에 관심을 가져왔습니다.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="card reveal">
+            <h3>개발 방향</h3>
+            <p>
+              새로운 기술을 학습한 뒤 실제 프로젝트에 적용하고,
+              테스트와 예외 상황까지 검증하는 방식으로 역량을 확장해 왔습니다.
+              특히 Spring Boot 기반 백엔드와 Android 앱을 연결하고,
+              데이터 기반 AI 기능을 서비스에 녹여내는 경험을 쌓았습니다.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>강점</h3>
+            <p>
+              다양한 프로젝트 경험을 바탕으로 데이터를 이해하고,
+              이를 실제 소프트웨어 기능과 연결할 수 있다는 점이 강점입니다.
+              요구사항을 작은 단계로 나누고 검증하면서 완성도를 높이는 개발 방식을 선호합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Skills</div>
+            <h2>기술 스택</h2>
+          </div>
+          <p class="section-desc">프로젝트에서 직접 사용하거나 학습하며 적용한 기술을 중심으로 정리했습니다.</p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="card reveal">
+            <h3>Backend</h3>
+            <div class="stack">
+              <span class="tag">Java</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">Spring Data JPA</span>
+              <span class="tag">REST API</span>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <h3>Database</h3>
+            <div class="stack">
+              <span class="tag">MySQL</span>
+              <span class="tag">JPA / Hibernate</span>
+              <span class="tag">SQL</span>
+              <span class="tag">H2</span>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <h3>App & AI</h3>
+            <div class="stack">
+              <span class="tag">Android</span>
+              <span class="tag">Retrofit</span>
+              <span class="tag">Spring AI</span>
+              <span class="tag">TensorFlow Lite</span>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <h3>Data & Tools</h3>
+            <div class="stack">
+              <span class="tag">Python</span>
+              <span class="tag">Data Handling</span>
+              <span class="tag">Git / GitHub</span>
+              <span class="tag">AI-assisted Development</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Projects</div>
+            <h2>주요 프로젝트</h2>
+          </div>
+          <p class="section-desc">
+            앱 개발에서 백엔드, AI 기능까지 단계적으로 확장해 온 프로젝트 경험입니다.
+          </p>
+        </div>
+
+        <div class="projects">
+          <article class="card project reveal">
+            <div class="project-visual">
+              <div class="project-no">01</div>
+              <div>
+                <div class="project-label">2026 · CAPSTONE</div>
+                <strong>AI Health Coaching App</strong>
+              </div>
+            </div>
+            <div class="project-body">
+              <h3>AI 기반 건강 코칭 앱</h3>
+              <p class="project-summary">
+                식단, 운동, 체중 기록을 통합하고 사용자의 최근 데이터를 기반으로 AI 건강 피드백을 제공하는 Android + Spring Boot 서비스입니다.
+              </p>
+
+              <div class="project-meta">
+                <div class="meta-box">
+                  <span class="meta-label">담당 역할</span>
+                  <span class="meta-value">Android · Backend · DB · AI 연동</span>
+                </div>
+                <div class="meta-box">
+                  <span class="meta-label">핵심 기여</span>
+                  <span class="meta-value">End-to-End 기능 설계 및 안정화</span>
+                </div>
+              </div>
+
+              <ul class="bullet-list">
+                <li>Android 클라이언트와 Spring Boot REST API 연동</li>
+                <li>JPA / MySQL 기반 회원·기록 데이터 CRUD 및 통계 처리</li>
+                <li>Spring AI를 활용한 사용자 데이터 기반 건강 피드백 기능 구현</li>
+                <li>구조화된 AI 응답, 데이터 부족 처리, 예외 및 타임아웃 정책 설계</li>
+                <li>세션 방어, 오래된 응답 차단, 통계 상태 분리 등 End-to-End 안정화</li>
+              </ul>
+
+              <div class="metrics">
+                <div class="metric">
+                  <strong>65 / 65</strong>
+                  <span>Spring 테스트 통과</span>
+                </div>
+                <div class="metric">
+                  <strong>35 / 35</strong>
+                  <span>Android JVM 테스트 통과</span>
+                </div>
+                <div class="metric">
+                  <strong>0</strong>
+                  <span>Android Lint 오류</span>
+                </div>
+              </div>
+
+              <div class="stack">
+                <span class="tag">Spring Boot 3.5.4</span>
+                <span class="tag">Spring Data JPA</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">Android</span>
+                <span class="tag">Spring AI 1.1.8</span>
+              </div>
+
+              <div class="repo-links">
+                <span class="repo-link disabled" title="정확한 저장소 URL을 입력하면 연결할 수 있습니다.">GitHub 저장소 링크 추가 필요</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal">
+            <div class="project-visual">
+              <div class="project-no">02</div>
+              <div>
+                <div class="project-label">2025 · VISION → APP</div>
+                <strong>Food Nutrition Predictor</strong>
+              </div>
+            </div>
+            <div class="project-body">
+              <h3>음식 이미지 영양정보 분석</h3>
+              <p class="project-summary">
+                음식 이미지를 기반으로 영양정보를 예측하는 프로젝트에서 시작해, 이후 Android 환경에서 실제로 사용할 수 있는 앱 형태로 확장했습니다.
+              </p>
+
+              <div class="project-meta">
+                <div class="meta-box">
+                  <span class="meta-label">기간</span>
+                  <span class="meta-value">2025.03 — 06 · 이후 Android 확장</span>
+                </div>
+                <div class="meta-box">
+                  <span class="meta-label">담당 역할</span>
+                  <span class="meta-value">분석 모델 구현 · 모바일 앱 확장</span>
+                </div>
+              </div>
+
+              <ul class="bullet-list">
+                <li>음식 이미지 분석 및 영양정보 예측 기능 구현</li>
+                <li>모델 결과를 실제 사용자 경험과 연결하는 앱 구조 설계</li>
+                <li>모바일 프로그래밍 학습 후 Android 앱으로 기능 확장</li>
+                <li>분석 모델 중심 프로젝트를 실제 사용 가능한 서비스 형태로 발전</li>
+              </ul>
+
+              <div class="metrics">
+                <div class="metric">
+                  <strong>2단계</strong>
+                  <span>분석 모델 → Android 앱 확장</span>
+                </div>
+                <div class="metric">
+                  <strong>4개월</strong>
+                  <span>초기 프로젝트 수행 기간</span>
+                </div>
+                <div class="metric">
+                  <strong>2 Repos</strong>
+                  <span>모델 · 앱 저장소 분리</span>
+                </div>
+              </div>
+
+              <div class="stack">
+                <span class="tag">Computer Vision</span>
+                <span class="tag">TensorFlow Lite</span>
+                <span class="tag">Android</span>
+                <span class="tag">Python</span>
+              </div>
+
+              <div class="repo-links">
+                <a class="repo-link" href="https://github.com/dltmdgjs/FoodNutritionPredictor" target="_blank" rel="noreferrer">FoodNutritionPredictor ↗</a>
+                <a class="repo-link" href="https://github.com/dltmdgjs/NutritionPredictorApp" target="_blank" rel="noreferrer">NutritionPredictorApp ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal">
+            <div class="project-visual">
+              <div class="project-no">03</div>
+              <div>
+                <div class="project-label">2024 · APP PROJECT</div>
+                <strong>BuyOrNot</strong>
+              </div>
+            </div>
+            <div class="project-body">
+              <h3>구매 의사결정 지원 앱</h3>
+              <p class="project-summary">
+                사용자의 구매 고민을 구조화하고 의사결정을 지원하는 앱 프로젝트입니다.
+                초기 아이디어를 실제 기능으로 구체화하며 앱 개발의 전체 흐름을 경험했습니다.
+              </p>
+
+              <div class="project-meta">
+                <div class="meta-box">
+                  <span class="meta-label">기간</span>
+                  <span class="meta-value">2024.09 — 12</span>
+                </div>
+                <div class="meta-box">
+                  <span class="meta-label">담당 역할</span>
+                  <span class="meta-value">요구사항 정의 · 화면/기능 설계 · 구현</span>
+                </div>
+              </div>
+
+              <ul class="bullet-list">
+                <li>사용자 관점에서 기능 요구사항 정의</li>
+                <li>구매 의사결정을 돕는 화면 및 기능 설계</li>
+                <li>아이디어를 실제 동작하는 앱 기능으로 구체화</li>
+                <li>이후 모바일·백엔드 프로젝트로 확장하는 개발 경험의 기반 마련</li>
+              </ul>
+
+              <div class="metrics">
+                <div class="metric">
+                  <strong>4개월</strong>
+                  <span>프로젝트 수행 기간</span>
+                </div>
+                <div class="metric">
+                  <strong>1 App</strong>
+                  <span>아이디어 → 앱 구현</span>
+                </div>
+                <div class="metric">
+                  <strong>2024</strong>
+                  <span>앱 프로젝트 시작점</span>
+                </div>
+              </div>
+
+              <div class="stack">
+                <span class="tag">Application Development</span>
+                <span class="tag">UX Thinking</span>
+                <span class="tag">GitHub</span>
+              </div>
+
+              <div class="repo-links">
+                <a class="repo-link" href="https://github.com/dltmdgjs/BuyOrNot" target="_blank" rel="noreferrer">BuyOrNot ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Credentials</div>
+            <h2>자격 및 학습</h2>
+          </div>
+          <p class="section-desc">소프트웨어 개발과 데이터 활용 역량을 함께 쌓아왔습니다.</p>
+        </div>
+
+        <div class="cert-grid">
+          <div class="card reveal">
+            <h3>ADsP</h3>
+            <p>데이터 분석 준전문가</p>
+          </div>
+          <div class="card reveal">
+            <h3>SQLD</h3>
+            <p>SQL 개발자</p>
+          </div>
+          <div class="card reveal">
+            <h3>빅데이터분석기사</h3>
+            <p>대규모 데이터 처리 및 활용 역량</p>
+          </div>
+          <div class="card reveal">
+            <h3>정보처리기사</h3>
+            <p>소프트웨어 개발 및 정보시스템 전반 역량</p>
+          </div>
+        </div>
+
+        <div style="height:18px"></div>
+
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2026.06 — 08</div>
+            <div>
+              <strong>Java · Spring · JPA 집중 학습</strong>
+              <p>Spring Boot, JPA, 데이터 접근 기술을 학습하고 캡스톤 프로젝트에 직접 적용했습니다.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2025</div>
+            <div>
+              <strong>모바일 프로그래밍 및 Android 앱 구현</strong>
+              <p>기존 분석 프로젝트를 실제 모바일 앱으로 확장하며 서비스 구현 경험을 넓혔습니다.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2024 — 2026</div>
+            <div>
+              <strong>프로젝트 기반 역량 확장</strong>
+              <p>앱 개발 → 백엔드 → AI 기능의 순서로 구현 범위를 넓혀 왔습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="card contact-card reveal">
+          <div class="section-kicker">Contact</div>
+          <h2>함께 성장할 기회를 찾고 있습니다.</h2>
+          <p>
+            소프트웨어 개발 및 운영 업무를 중심으로,
+            실제 서비스의 문제를 해결하고 꾸준히 개선하는 개발자가 되고자 합니다.
+          </p>
+          <div class="actions" style="justify-content:center">
+            <a class="btn primary" href="https://github.com/dltmdgjs" target="_blank" rel="noreferrer">GitHub 방문</a>
+            <a class="btn" href="mailto:your-email@example.com">이메일 연결</a>
+          </div>
+          <p style="font-size:0.82rem; margin-top:18px;">
+            ※ 이메일 주소는 실제 주소로 교체해주세요.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 이승헌. All rights reserved.</span>
+      <span>Built with HTML · CSS · JavaScript</span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
